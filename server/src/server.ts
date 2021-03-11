@@ -5,6 +5,10 @@ import connectToDB from "./db";
 import MessageType from "../types/MessageType";
 import { addMessage } from "../helpers/roomHelpers";
 import RoomType from "../types/RoomType";
+import dotenv from "dotenv";
+
+// config dotenv
+dotenv.config();
 
 // routes
 import roomRoutes from "./routes/room";
@@ -24,7 +28,7 @@ app.use("/api/auth", authRoutes);
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: "http://localhost:5000",
+    origin: process.env.API_URL,
   },
 });
 
