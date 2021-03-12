@@ -49,7 +49,7 @@ router.post(
         const user = new User({ email, username, password: hashedPassword });
         try {
           const saveUser = await user.save();
-          const token = await jwt.sign({ user }, process.env.SECRET, {
+          const token = await jwt.sign({ user }, "gurkirt", {
             expiresIn: "1h",
           });
           return res
@@ -109,13 +109,9 @@ router.post(
         // if user exists
         if (hashedPassword) {
           try {
-            const token = await jwt.sign(
-              { user: userExists },
-              process.env.SECRET,
-              {
-                expiresIn: "1h",
-              }
-            );
+            const token = await jwt.sign({ user: userExists }, "gurkirt", {
+              expiresIn: "1h",
+            });
             return res.status(200).json({
               userId: userExists._id,
               username: userExists.username,

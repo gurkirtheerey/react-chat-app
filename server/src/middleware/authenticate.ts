@@ -12,7 +12,7 @@ export const authenticateJWT = async (
     const token = headers.split(" ")[0];
 
     try {
-      const user = await jwt.verify(token, process.env.SECRET);
+      const user = await jwt.verify(token, "gurkirt");
       if (!user) {
         return res.status(403).send("Unauthorized");
       }
