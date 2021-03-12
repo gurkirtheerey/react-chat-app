@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { CreateRoom } from "../components/CreateRoom";
 import { Form } from "../components/Form";
-import { MessageBox } from "../components/MessageBox";
+import { MessageBox } from "../components/MessageBox/MessageBox";
 import { Room } from "../components/Room";
 import { getRoomMessages, setRoom, logout } from "../features/auth/authSlice";
 import { getRooms, createRoom } from "../features/room/roomSlice";
@@ -81,7 +81,7 @@ export const Home = () => {
       {toggleSlider && (
         <Slider toggle={toggleSlider} rooms={rooms} joinRoom={joinRoom} />
       )}
-      <div className="hidden  md:flex md:flex-col lg:flex lg:flex-col text-center align-middle relative overflow-hidden  border-r-2 border-black">
+      <div className="hidden md:flex md:flex-col lg:flex lg:flex-col text-center align-middle relative overflow-hidden  border-r-2 border-black">
         <div className="h-full">
           {rooms && rooms.length
             ? rooms.map((room: any, i: any) => (
