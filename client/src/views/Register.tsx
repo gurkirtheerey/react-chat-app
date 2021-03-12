@@ -115,7 +115,7 @@ export const Register = () => {
         </div>
         <div className="flex flex-col md:flex-row lg:flex-row items-center justify-between h-20">
           <button
-            className="bg-red-400 w-1/2 hover:bg-red-500 text-white font-semibold py-2 px-4 rounded"
+            className="bg-blue-500 w-1/2 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
             type="submit"
           >
             Sign Up

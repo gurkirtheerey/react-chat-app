@@ -21,6 +21,7 @@
     "@types/uuid": "^8.3.0",
     "axios": "^0.21.1",
     "formik": "^2.2.6",
+    "hamburger-react": "^2.4.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.0",

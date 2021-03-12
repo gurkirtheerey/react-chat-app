@@ -25,7 +25,9 @@ export const MessageBox: React.FC<MessageBoxProps> = ({ room }) => {
   return (
     <div
       id="message-box"
-      className="box-border h-3/5 overflow-scroll p-4 border-4 border-gray-500 rounded ml-4"
+      className="h-4/6 border-2 border-gray-800 overflow-scroll  md:box-border lg:box-border md:h-3/5 lg:h-3/5
+        md:p-4 lg:p-4 md:border-4 lg:border-4 md:border-gray-500
+        lg:border-gray-500 md:rounded lg:rounded md:ml-4 lg:ml-4"
     >
       {messages && messages.length
         ? messages.map(({ _id, userId, message, username }) => (

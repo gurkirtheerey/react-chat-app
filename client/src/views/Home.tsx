@@ -10,11 +10,14 @@ import { getRooms, createRoom } from "../features/room/roomSlice";
 import socket from "../socket";
 import RoomType from "../types/RoomType";
 import { toast } from "react-toastify";
+import { Slider } from "../components/Slider/Slider";
+import { Twirl as Hamburger, Twirl } from "hamburger-react";
 
 export const Home = () => {
   const [text, setText] = useState<string>("");
   const [roomText, setRoomText] = useState<string>("");
   const [toggle, setToggle] = useState<boolean>(false);
+  const [toggleSlider, setToggleSlider] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { room, userId, username } = useSelector(
     (state: RootState) => state.auth
@@ -56,6 +59,8 @@ export const Home = () => {
       dispatch(getRoomMessages(newRoom));
       socket.emit("join-room", newRoom, username);
     }
+
+    setToggleSlider(false);
   };
 
   const create = () => {
@@ -73,7 +78,10 @@ export const Home = () => {
 
   return (
     <div className="bg-gray-700 flex">
-      <div className="flex flex-col text-center align-middle relative overflow-hidden  border-r-2 border-black">
+      {toggleSlider && (
+        <Slider toggle={toggleSlider} rooms={rooms} joinRoom={joinRoom} />
+      )}
+      <div className="hidden  md:flex md:flex-col lg:flex lg:flex-col text-center align-middle relative overflow-hidden  border-r-2 border-black">
         <div className="h-full">
           {rooms && rooms.length
             ? rooms.map((room: any, i: any) => (
@@ -89,13 +97,22 @@ export const Home = () => {
           Create Room
         </button>
       </div>
+      <button
+        className="hidden md:block lg:block focus:outline-none bg-gray-600 font-semibold w-20 py-2 absolute right-0 top-0 text-xs rounded hover:bg-gray-800 mb-4 m-4"
+        onClick={logoutUser}
+      >
+        Logout
+      </button>
       <div className="bg-gray-700 h-screen text-white flex flex-col justify-center flex-1">
-        <button
-          className="focus:outline-none bg-gray-600 font-semibold w-20 py-2 absolute right-0 top-0 text-xs rounded hover:bg-gray-800 mb-4 m-4"
-          onClick={logoutUser}
-        >
-          Logout
-        </button>
+        <div className="md:hidden lg:hidden h-auto absolute right-0 top-0 focus:outline-none p-2 focus:outline-none">
+          <Hamburger
+            duration={0.8}
+            toggled={toggleSlider}
+            size={24}
+            hideOutline={true}
+            onToggle={() => setToggleSlider(!toggleSlider)}
+          />
+        </div>
         {toggle && (
           <CreateRoom
             roomText={roomText}

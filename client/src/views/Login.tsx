@@ -67,6 +67,7 @@ export const Login = () => {
             Username
           </label>
           <input
+            ref={inputRef}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.username}
@@ -95,7 +96,7 @@ export const Login = () => {
         </div>
         <div className="flex flex-col h-24 items-center justify-between md:flex-row lg:flex-row">
           <button
-            className="bg-red-400 w-1/2 md:w-1/3 lg:w-1/3 hover:bg-red-500 text-white font-semibold py-2 px-4 rounded"
+            className="bg-blue-500 w-1/2 md:w-1/3 lg:w-1/3 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
             type="submit"
           >
             Sign in

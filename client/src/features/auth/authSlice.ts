@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import instance from "../../api";
-import { AppThunk } from "../../app/store";
+import { AppThunk, RootState } from "../../app/store";
 import RoomType from "../../types/RoomType";
 
 interface AuthState {
@@ -45,6 +46,7 @@ export const authSlice = createSlice({
       state.username = username;
       state.loading = false;
       localStorage.setItem("token", token);
+      // state.room =
     },
 
     register: (state, action: PayloadAction<any>) => {
