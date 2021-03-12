@@ -15,7 +15,7 @@ const App = () => {
     if (token) {
       dispatch(verifyUser(token));
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <BrowserRouter>

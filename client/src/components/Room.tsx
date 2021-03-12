@@ -8,12 +8,12 @@ interface RoomProps {
 
 export const Room: React.FC<RoomProps> = ({ room, join }) => {
   return (
-    <span
+    <div
       key={String(room._id)}
       onClick={() => join(room)}
-      className="truncate ... cursor-pointer hover:bg-gray-600 align-middle pt-10"
+      className="flex cursor-pointer hover:bg-gray-800 align-middle py-4 px-2 w-40 text-gray-300 text-sm"
     >
-      {room.name}
-    </span>
+      <span className="truncate ...">{room.name}</span>
+    </div>
   );
 };

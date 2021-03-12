@@ -11,15 +11,15 @@ export const authenticateJWT = async (
   if (headers) {
     const token = headers.split(" ")[0];
 
-    const user = await jwt.verify(token, process.env.SECRET);
-    if (!user) {
-      return res.status(403).send("Unauthorized");
+    try {
+      const user = await jwt.verify(token, process.env.SECRET);
+      if (!user) {
+        return res.status(403).send("Unauthorized");
+      }
+      req.user = user;
+      next();
+    } catch (err) {
+      return res.status(401).send("Token Expired");
     }
-    req.user = user;
-    next();
-  } else {
-    return res.status(401).send("Unauthorized...");
   }
-
-  return res.status(500).send("Internal Server Error");
 };

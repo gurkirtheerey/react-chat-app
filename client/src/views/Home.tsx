@@ -3,19 +3,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { CreateRoom } from "../components/CreateRoom";
 import { Form } from "../components/Form";
-import { Message } from "../components/Message";
+import { MessageBox } from "../components/MessageBox";
 import { Room } from "../components/Room";
 import { getRoomMessages, setRoom, logout } from "../features/auth/authSlice";
 import { getRooms, createRoom } from "../features/room/roomSlice";
 import socket from "../socket";
 import RoomType from "../types/RoomType";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastNotification } from "../components/ToastNotification";
 
 export const Home = () => {
   const [text, setText] = useState<string>("");
   const [roomText, setRoomText] = useState<string>("");
   const [toggle, setToggle] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { room } = useSelector((state: RootState) => state.auth);
+  const { room, userId, username } = useSelector(
+    (state: RootState) => state.auth
+  );
   const { rooms } = useSelector((state: RootState) => state.room);
 
   useEffect(() => {
@@ -23,30 +28,35 @@ export const Home = () => {
     socket.on("update-messages", (updatedMessages: RoomType) =>
       dispatch(setRoom(updatedMessages))
     );
-    socket.on("new-user-joined", (id: RoomType, name: String) =>
-      console.log(`${id} has joined ${name}!`)
+    socket.on(
+      "new-user-joined",
+      async (newUser: string, name: string, updatedUsers: RoomType) => {
+        console.log(`${newUser} has joined ${name}!`);
+        toast.success(`${newUser} has joined ${name}!`);
+        if (updatedUsers !== null) {
+          await dispatch(setRoom(updatedUsers));
+        }
+      }
     );
-    socket.on("user-left", (id: RoomType, name: String) => {
-      console.log(`${id} has left ${name}!`);
+    socket.on("user-left", (name: String, newUser: string) => {
+      console.log(`${newUser} has left ${name}...`);
+      toast.error(`${newUser} has left ${name}...`);
     });
   }, [dispatch]);
 
   const sendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setText("");
-    socket.emit("new-message", room, text);
+    socket.emit("new-message", room, text, userId, username);
   };
 
   const joinRoom = (newRoom: RoomType) => {
-    if (room !== undefined && room !== newRoom) {
-      socket.emit("leave-room", room);
+    if (room !== undefined && room.name !== newRoom.name) {
+      socket.emit("leave-room", room, username);
     }
-    if (room !== newRoom) {
+    if (room?.name !== newRoom.name) {
       dispatch(getRoomMessages(newRoom));
-      socket.emit("join-room", newRoom);
-    } else {
-      dispatch(setRoom(undefined));
-      socket.emit("leave-room", room);
+      socket.emit("join-room", newRoom, username);
     }
   };
 
@@ -64,19 +74,30 @@ export const Home = () => {
   };
 
   return (
-    <>
-      <div className="bg-gray-700 h-screen text-white flex flex-col justify-center">
+    <div className="bg-gray-700 flex">
+      <ToastNotification />
+      <div className="flex flex-col text-center align-middle relative overflow-hidden  border-r-2 border-black">
+        <div className="h-full">
+          {rooms && rooms.length
+            ? rooms.map((room: any, i: any) => (
+                <Room key={room._id} room={room} join={joinRoom} />
+              ))
+            : null}
+        </div>
+
         <button
-          className="focus:outline-none bg-gray-600 font-semibold w-20 py-2 self-end text-xs rounded hover:bg-gray-800 mb-4 mr-4"
-          onClick={logoutUser}
-        >
-          Logout
-        </button>
-        <button
-          className="focus:outline-none bg-blue-400 w-40 py-2 self-start text-sm rounded hover:bg-blue-500 mb-4 ml-4"
+          className="focus:outline-none bg-gray-600 w-32 self-center py-4 self-start text-xs rounded hover:bg-gray-800 mb-12 text-white font-bold"
           onClick={() => setToggle(!toggle)}
         >
           Create Room
+        </button>
+      </div>
+      <div className="bg-gray-700 h-screen text-white flex flex-col justify-center flex-1">
+        <button
+          className="focus:outline-none bg-gray-600 font-semibold w-20 py-2 absolute right-0 top-0 text-xs rounded hover:bg-gray-800 mb-4 m-4"
+          onClick={logoutUser}
+        >
+          Logout
         </button>
         {toggle && (
           <CreateRoom
@@ -85,26 +106,11 @@ export const Home = () => {
             create={create}
           />
         )}
-        <div className="h-1/6 grid grid-cols-3 flex text-center align-middle">
-          {rooms && rooms.length
-            ? rooms.map((room: any, i: any) => (
-                <Room key={room._id} room={room} join={joinRoom} />
-              ))
-            : null}
-        </div>
-        <div className="box-border h-3/5 overflow-scroll p-4 border-4 border-gray-500 rounded-xl">
-          {room && room.messages
-            ? room.messages.map(({ _id, userId, message }) => (
-                <ul key={_id}>
-                  <Message message={message} userId={userId} />
-                </ul>
-              ))
-            : null}
-        </div>
+        <MessageBox room={room} />
         {room && (
           <Form sendMessage={sendMessage} setText={setText} text={text} />
         )}
       </div>
-    </>
+    </div>
   );
 };

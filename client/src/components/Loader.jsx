@@ -1,6 +1,5 @@
 import React from "react";
 import ClipLoader from "react-spinners/ClipLoader";
-import { css } from "@emotion/core";
 
 export const Loader = ({ loading }) => {
   return (

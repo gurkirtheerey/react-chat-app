@@ -128,7 +128,7 @@ export const getRoomMessages = (room: RoomType): AppThunk => async (
 ) => {
   try {
     const { _id } = room;
-    const { data } = await instance.get("/room/test", {
+    const { data } = await instance.get("/room/get-room", {
       params: { _id },
     });
     dispatch(setRoom(data));

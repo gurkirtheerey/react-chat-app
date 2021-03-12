@@ -1,11 +1,12 @@
 // imports
 import cors from "cors";
-import { v4 as uuidv4 } from "uuid";
 import connectToDB from "./db";
-import MessageType from "../types/MessageType";
-import { addMessage } from "../helpers/roomHelpers";
+import { addMessage, addUser } from "../helpers/roomHelpers";
 import RoomType from "../types/RoomType";
 import dotenv from "dotenv";
+
+// port
+const PORT = process.env.PORT || 5000;
 
 // config dotenv
 dotenv.config();
@@ -28,7 +29,7 @@ app.use("/api/auth", authRoutes);
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: process.env.API_URL,
+    origin: "http://localhost:5000",
   },
 });
 
@@ -38,23 +39,31 @@ connectToDB();
 io.on("connection", (socket) => {
   console.log(`${socket.id} has connected`);
 
-  socket.on("join-room", (room: RoomType) => {
+  socket.on("join-room", async (room: RoomType, username: string) => {
     const { name } = room;
     socket.join(name);
-    console.log(`${socket.id} has joined room ${name}`);
-    io.to(name).emit("new-user-joined", socket.id, name);
+    try {
+      const updatedUsers = await addUser(room, username);
+      let newUser = username;
+      console.log(`${newUser} has joined room ${name}`);
+      io.to(name).emit("new-user-joined", newUser, name, updatedUsers);
+    } catch (err) {
+      console.log(err);
+    }
   });
 
-  socket.on("leave-room", (room: RoomType) => {
+  socket.on("leave-room", (room: RoomType, username: string) => {
     const { name } = room;
     socket.leave(name);
-    console.log(`${socket.id} has left room ${name}`);
-    io.to(name).emit("user-left", socket.id, name);
+    let newUser = username;
+    console.log(`${newUser} has left room ${name}`);
+    io.to(name).emit("user-left", name, newUser);
   });
 
-  socket.on("new-message", async (room, message) => {
+  socket.on("new-message", async (room, message, userId, username) => {
     try {
-      const updatedMessages = await addMessage(room, message, socket.id);
+      let name = username;
+      const updatedMessages = await addMessage(room, message, userId, name);
       io.to(room.name).emit("update-messages", updatedMessages);
     } catch (err) {
       console.log(err);
@@ -68,4 +77,4 @@ io.on("connection", (socket) => {
   // io.emit("get-messages", messages);
 });
 
-httpServer.listen(5000, () => console.log("Running on port 5000"));
+httpServer.listen(PORT, () => console.log(`Running on port ${PORT}`));

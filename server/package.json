@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon",
-    "start": "ts-node server.js",
+    "start": "ts-node src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -32,7 +32,7 @@
     "express": "^4.16.4",
     "express-validator": "^6.10.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.19",
+    "mongoose": "^5.11.15",
     "socket.io": "^3.1.2",
     "uuid": "^8.3.2"
   }

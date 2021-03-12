@@ -40,7 +40,7 @@ router.post(
 
       // hash user password before saving in db
       try {
-        const hashedPassword = await bcrypt.hash(password, process.env.SALT);
+        const hashedPassword = await bcrypt.hash(password, 10); // REMEMBER TO CHANGE THIS HASH
         // save user to db
         const user = new User({ email, username, password: hashedPassword });
         try {

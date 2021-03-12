@@ -4,20 +4,22 @@ import { useSelector } from "react-redux";
 interface MessageProps {
   message: string;
   userId: string;
+  user: string;
 }
 
-const myTexts = "text-right bg-blue-500";
-const otherTexts = "tex-left bg-red-500";
+export const Message: React.FC<MessageProps> = ({ message, userId, user }) => {
+  const { username } = useSelector((state: any) => state.auth);
 
-export const Message: React.FC<MessageProps> = ({ message, userId }) => {
-  const { socketId } = useSelector((state: any) => state.auth);
   return (
-    <div
-      className={`border-b-2 border-gray px-4 py-2 ${
-        socketId !== userId ? otherTexts : myTexts
-      }`}
-    >
-      {message}
+    <div id="test" className={`px-4 py-2`}>
+      <h2
+        className={`font-bold ${
+          username === user ? "text-red-400" : "text-blue-200"
+        }`}
+      >
+        {user}
+      </h2>
+      <span className="text-gray-400">{message}</span>
     </div>
   );
 };

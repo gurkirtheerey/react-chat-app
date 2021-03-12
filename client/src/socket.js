@@ -1,6 +1,8 @@
 import { io } from "socket.io-client";
 
-const API_URL = process.env.API_URL;
-const socket = io(API_URL, { transports: ["websocket"] });
+// DEV
+const socket = io("http://localhost:5000", { transports: ["websocket"] });
+// PROD
+// const socket = io("http://localhost:5000", { transports: ["websocket"] });
 
 export default socket;

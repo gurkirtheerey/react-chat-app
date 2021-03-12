@@ -13,7 +13,7 @@ router.get("/", async (req: express.Request, res: express.Response) => {
   }
 });
 
-router.get("/test", async (req: express.Request, res: express.Response) => {
+router.get("/get-room", async (req: express.Request, res: express.Response) => {
   const { _id } = req.query;
   try {
     const room = await Room.findById(_id);
