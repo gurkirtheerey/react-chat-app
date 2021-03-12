@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import instance from "../../api";
 import { AppThunk } from "../../app/store";
 import RoomType from "../../types/RoomType";
@@ -33,8 +34,8 @@ export const authSlice = createSlice({
       state.room = action.payload;
     },
 
-    setLoading: (state) => {
-      state.loading = true;
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
     },
 
     login: (state, action: PayloadAction<any>) => {
@@ -60,6 +61,7 @@ export const authSlice = createSlice({
       state.userId = undefined;
       state.username = undefined;
       localStorage.removeItem("token");
+      toast.success("Successfully logged out!");
     },
 
     resetUser: (state) => {
@@ -84,10 +86,14 @@ export const loginUser = (
   password: string
 ): AppThunk => async (dispatch) => {
   try {
-    dispatch(setLoading());
+    dispatch(setLoading(true));
     const { data } = await instance.post("/auth/login", { username, password });
     dispatch(login(data));
+    return data;
   } catch (err) {
+    dispatch(setLoading(false));
+    toast.error("Invalid username/password combination.");
+    dispatch(resetUser());
     console.log(err);
   }
 };
@@ -98,15 +104,18 @@ export const registerUser = (
   password: string
 ): AppThunk => async (dispatch) => {
   try {
-    dispatch(setLoading());
+    dispatch(setLoading(true));
     const { data } = await instance.post("/auth/register", {
       email,
       username,
       password,
     });
     dispatch(register(data));
+    return data;
   } catch (err) {
-    console.log(err);
+    dispatch(setLoading(false));
+    toast.error(err.response.data);
+    dispatch(resetUser());
   }
 };
 
@@ -145,6 +154,7 @@ export const {
   register,
   logout,
   verify,
+  resetUser,
 } = authSlice.actions;
 
 export default authSlice.reducer;

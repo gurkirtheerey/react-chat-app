@@ -10,8 +10,6 @@ import { getRooms, createRoom } from "../features/room/roomSlice";
 import socket from "../socket";
 import RoomType from "../types/RoomType";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastNotification } from "../components/ToastNotification";
 
 export const Home = () => {
   const [text, setText] = useState<string>("");
@@ -75,7 +73,6 @@ export const Home = () => {
 
   return (
     <div className="bg-gray-700 flex">
-      <ToastNotification />
       <div className="flex flex-col text-center align-middle relative overflow-hidden  border-r-2 border-black">
         <div className="h-full">
           {rooms && rooms.length

@@ -4,7 +4,6 @@ import User from "../src/models/UserSchema";
 export const addMessage = async (room, message, userId, username) => {
   try {
     const newMessage = { message, userId, username };
-    console.log(newMessage);
     const r = await Room.findByIdAndUpdate(
       room._id,
       {

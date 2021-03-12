@@ -22,7 +22,11 @@ router.post(
     // validate user input and send 400 if bad request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res
+        .status(400)
+        .send(
+          "Minimum Character Length (username, password): 5. Email must be valid"
+        );
     }
 
     // get required data from request

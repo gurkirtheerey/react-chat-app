@@ -6,6 +6,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { Login } from "./views/Login";
 import { Register } from "./views/Register";
 import ProtectedRoute from "./ProtectedRoute";
+import { ToastNotification } from "./components/ToastNotification";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <ToastNotification />
       <Route exact path="/login" component={Login} />
       <Route exact path="/register" component={Register} />
       <ProtectedRoute exact path="/" component={Home} />
