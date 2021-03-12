@@ -77,7 +77,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="bg-gray-700 flex">
+    <div className="bg-gray-700 flex h-screen overflow-hidden">
       {toggleSlider && (
         <Slider toggle={toggleSlider} rooms={rooms} joinRoom={joinRoom} />
       )}
