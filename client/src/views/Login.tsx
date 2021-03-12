@@ -52,11 +52,11 @@ export const Login = () => {
   return (
     <form
       onSubmit={formik.handleSubmit}
-      className="h-screen bg-red-100 flex justify-center items-center text-gray-500"
+      className="h-screen bg-gray-800 flex justify-center items-center text-gray-500"
     >
-      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-1/2 shadow-xl">
+      <div className="w-full shadow-md rounded md:px-8 lg:px-8 md:pt-6 lg:pt-6 pb-8 mb-4 flex flex-col lg:w-1/3 md:w-1/2 shadow-2xl">
         <div className="mb-4">
-          <h1 className="text-center font-semibold text-gray-700 text-xl mb-12">
+          <h1 className="text-center md:font-semibold lg:font-semibold text-white lg:text-xl mb-12">
             Login
           </h1>
 
@@ -70,13 +70,13 @@ export const Login = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.username}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+            className="shadow bg-gray-200 appearance-none border rounded w-full py-2 px-3 text-grey-darker"
             id="username"
             type="text"
             placeholder="Username"
           />
         </div>
-        <div className="mb-6">
+        <div className="mb-6 w-full">
           {formik.touched.password && formik.errors.password ? (
             <span className="text-red-500">{formik.errors.password}</span>
           ) : null}
@@ -87,15 +87,15 @@ export const Login = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.password}
-            className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
+            className="shadow bg-gray-200 appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
             id="password"
             type="password"
-            placeholder="******************"
+            placeholder="**********"
           />
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col h-24 items-center justify-between md:flex-row lg:flex-row">
           <button
-            className="bg-red-400 hover:bg-red-500 text-white font-semibold py-2 px-4 rounded"
+            className="bg-red-400 w-1/2 md:w-1/3 lg:w-1/3 hover:bg-red-500 text-white font-semibold py-2 px-4 rounded"
             type="submit"
           >
             Sign in
