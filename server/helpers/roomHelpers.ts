@@ -3,7 +3,16 @@ import User from "../src/models/UserSchema";
 
 export const addMessage = async (room, message, userId, username) => {
   try {
-    const newMessage = { message, userId, username };
+    const newMessage = {
+      message,
+      userId,
+      username,
+      date: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    };
+
     const r = await Room.findByIdAndUpdate(
       room._id,
       {

@@ -5,10 +5,8 @@ import { body, validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 import { authenticateJWT } from "../middleware/authenticate";
 import dotenv from "dotenv";
+import path from "path";
 dotenv.config();
-
-const SECRET = "gurkirt";
-const SALT = 10;
 
 const router = express.Router({ mergeParams: true });
 
@@ -45,16 +43,25 @@ router.post(
       // hash user password before saving in db
       try {
         const hashedPassword = await bcrypt.hash(password, 10); // REMEMBER TO CHANGE THIS HASH
+        const file = `${__dirname}../../public/images/po.png`;
         // save user to db
-        const user = new User({ email, username, password: hashedPassword });
+        const user = new User({
+          email,
+          username,
+          password: hashedPassword,
+          avatar: "http://localhost:5000/images/po.png",
+        });
         try {
-          const saveUser = await user.save();
-          const token = await jwt.sign({ user }, "gurkirt", {
+          const saveUser: any = await user.save();
+          const token = await jwt.sign({ user }, process.env.SECRET, {
             expiresIn: "1h",
           });
-          return res
-            .status(200)
-            .json({ userId: saveUser._id, username, token });
+          return res.status(200).json({
+            userId: saveUser._id,
+            username,
+            token,
+            avatar: saveUser.avatar,
+          });
         } catch (err) {
           console.log(err);
           return res
@@ -109,13 +116,18 @@ router.post(
         // if user exists
         if (hashedPassword) {
           try {
-            const token = await jwt.sign({ user: userExists }, "gurkirt", {
-              expiresIn: "1h",
-            });
+            const token = await jwt.sign(
+              { user: userExists },
+              process.env.SECRET,
+              {
+                expiresIn: "1h",
+              }
+            );
             return res.status(200).json({
               userId: userExists._id,
               username: userExists.username,
               token,
+              avatar: "http://localhost:5000/images/po.png",
             });
           } catch (err) {
             console.log(err);
@@ -148,6 +160,15 @@ router.post(
 router.get("/verify", authenticateJWT, (req: any, res: any) => {
   const { user } = req.user;
   res.status(200).send(user);
+});
+
+router.get("/test", (req: any, res: any) => {
+  try {
+    res.sendFile(path.join(__dirname, "../../public/images/po.png"));
+  } catch (err) {
+    console.log(err);
+    res.send(err);
+  }
 });
 
 export default router;

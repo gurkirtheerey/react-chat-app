@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import instance from "../../api";
-import { AppThunk, RootState } from "../../app/store";
+import { AppThunk } from "../../app/store";
 import RoomType from "../../types/RoomType";
 
 interface AuthState {
@@ -12,6 +11,7 @@ interface AuthState {
   socketId: string;
   room: RoomType | undefined;
   loading: boolean;
+  avatar: string;
 }
 
 const initialState: AuthState = {
@@ -21,6 +21,7 @@ const initialState: AuthState = {
   socketId: "",
   room: undefined,
   loading: false,
+  avatar: "",
 };
 
 export const authSlice = createSlice({
@@ -40,21 +41,22 @@ export const authSlice = createSlice({
     },
 
     login: (state, action: PayloadAction<any>) => {
-      const { userId, username, token } = action.payload;
+      const { userId, username, token, avatar } = action.payload;
       state.isLoggedIn = true;
       state.userId = userId;
       state.username = username;
       state.loading = false;
+      state.avatar = avatar;
       localStorage.setItem("token", token);
-      // state.room =
     },
 
     register: (state, action: PayloadAction<any>) => {
-      const { userId, username, token } = action.payload;
+      const { userId, username, token, avatar } = action.payload;
       state.isLoggedIn = true;
       state.userId = userId;
       state.username = username;
       state.loading = false;
+      state.avatar = avatar;
       localStorage.setItem("token", token);
     },
 
@@ -74,11 +76,12 @@ export const authSlice = createSlice({
     },
 
     verify: (state, action: PayloadAction<any>) => {
-      const { _id, username } = action.payload;
+      const { _id, username, avatar } = action.payload;
       state.isLoggedIn = true;
       state.userId = _id;
       state.username = username;
       state.loading = false;
+      state.avatar = avatar;
     },
   },
 });
@@ -130,6 +133,7 @@ export const verifyUser = (token: string): AppThunk => async (dispatch) => {
       dispatch(verify(data));
     }
   } catch (err) {
+    toast.warn(err.response.data + ". Please login again.");
     console.log(err);
   }
 };

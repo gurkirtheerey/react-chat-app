@@ -4,7 +4,9 @@ const { Schema } = mongoose;
 
 const roomSchema = new Schema({
   name: String,
-  messages: [{ userId: String, message: String, username: String }],
+  messages: [
+    { userId: String, message: String, username: String, date: String },
+  ],
   users: [{ userId: String, username: String }],
 });
 

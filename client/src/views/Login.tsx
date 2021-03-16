@@ -33,10 +33,10 @@ export const Login = () => {
     validationSchema: Yup.object({
       username: Yup.string()
         .max(8, "Must be 8 characters or less")
-        .required("Required"),
+        .required("Username is required"),
       password: Yup.string()
         .max(8, "Must be 8 characters or less")
-        .required("Required"),
+        .required("Password is required"),
     }),
     onSubmit: async (values) => {
       const { username, password } = values;
@@ -52,18 +52,19 @@ export const Login = () => {
   return (
     <form
       onSubmit={formik.handleSubmit}
-      className="h-screen bg-gray-800 flex justify-center items-center text-gray-500"
+      className="h-screen bg-gray flex flex-col justify-center items-center text-gray-500"
     >
+      <h1 className="w-1/3 text-white lg:text-4xl font-mono font-bold text-white mb-12">
+        Login
+      </h1>
       <div className="w-full shadow-md rounded md:px-8 lg:px-8 md:pt-6 lg:pt-6 pb-8 mb-4 flex flex-col lg:w-1/3 md:w-1/2 shadow-2xl">
         <div className="mb-4">
-          <h1 className="text-center md:font-semibold lg:font-semibold text-white lg:text-xl mb-12">
-            Login
-          </h1>
-
           {formik.touched.username && formik.errors.username ? (
-            <span className="text-red-500">{formik.errors.username}</span>
+            <span className="text-error font-bold">
+              {formik.errors.username}
+            </span>
           ) : null}
-          <label className="block text-grey-darker text-sm font-bold mb-2">
+          <label className="block text-text text-sm font-bold mb-2 pt-4">
             Username
           </label>
           <input
@@ -71,7 +72,7 @@ export const Login = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.username}
-            className="shadow bg-gray-200 appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+            className="shadow bg-input appearance-none rounded w-full py-2 px-3 font-serif text-text focus:outline-none"
             id="username"
             type="text"
             placeholder="Username"
@@ -79,16 +80,18 @@ export const Login = () => {
         </div>
         <div className="mb-6 w-full">
           {formik.touched.password && formik.errors.password ? (
-            <span className="text-red-500">{formik.errors.password}</span>
+            <span className="text-error font-bold">
+              {formik.errors.password}
+            </span>
           ) : null}
-          <label className="block text-grey-darker text-sm font-bold mb-2">
+          <label className="block text-text text-sm font-bold mb-2 pt-4">
             Password
           </label>
           <input
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.password}
-            className="shadow bg-gray-200 appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
+            className="shadow bg-input appearance-none rounded w-full py-2 px-3 text-text focus:outline-none"
             id="password"
             type="password"
             placeholder="**********"
@@ -96,7 +99,7 @@ export const Login = () => {
         </div>
         <div className="flex flex-col h-24 items-center justify-between md:flex-row lg:flex-row">
           <button
-            className="bg-blue-500 w-1/2 md:w-1/3 lg:w-1/3 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+            className="w-1/2 md:w-1/3 lg:w-1/3 bg-button text-text font-semibold py-2 px-4 rounded"
             type="submit"
           >
             Sign in
@@ -104,7 +107,7 @@ export const Login = () => {
 
           <span
             onClick={() => history.push("/register")}
-            className="font-bold text-sm cursor-pointer text-gray-400 hover:text-gray-500"
+            className="font-bold text-sm cursor-pointer text-text-button"
           >
             Don't have an account?
           </span>

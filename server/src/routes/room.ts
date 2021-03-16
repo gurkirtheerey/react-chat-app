@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import Room from "../models/RoomSchema";
 
 const router = express.Router({ mergeParams: true });

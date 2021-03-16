@@ -1,18 +1,18 @@
 .Slider {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 2;
+  top: 1;
   height: 100vh;
   width: 50%;
   z-index: 99;
-  background-color: rgba(0, 0, 0, 0.76);
+  background-color: rgba(0, 0, 0, 0.178);
 }
 
 .slideIn {
   animation: slide-in 0.75s forwards;
 }
 .slideOut {
-  animation: slide-out 0.75s forwards;
+  animation: slide-out 0.75s backwards;
 }
 
 @keyframes slide-in {
@@ -26,10 +26,10 @@
 
 @keyframes slide-out {
   100% {
-    transform: translateX(100%);
+    transform: translateX(0%);
   }
   0% {
-    transform: translateX(0%);
+    transform: translateX(-100%);
   }
 }
 

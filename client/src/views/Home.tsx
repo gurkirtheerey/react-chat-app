@@ -5,13 +5,15 @@ import { CreateRoom } from "../components/CreateRoom";
 import { Form } from "../components/Form";
 import { MessageBox } from "../components/MessageBox/MessageBox";
 import { Room } from "../components/Room";
-import { getRoomMessages, setRoom, logout } from "../features/auth/authSlice";
+import { getRoomMessages, setRoom } from "../features/auth/authSlice";
 import { getRooms, createRoom } from "../features/room/roomSlice";
 import socket from "../socket";
 import RoomType from "../types/RoomType";
 import { toast } from "react-toastify";
 import { Slider } from "../components/Slider/Slider";
-import { Twirl as Hamburger, Twirl } from "hamburger-react";
+import { RoomButton } from "../components/RoomButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 export const Home = () => {
   const [text, setText] = useState<string>("");
@@ -59,8 +61,6 @@ export const Home = () => {
       dispatch(getRoomMessages(newRoom));
       socket.emit("join-room", newRoom, username);
     }
-
-    setToggleSlider(false);
   };
 
   const create = () => {
@@ -72,45 +72,47 @@ export const Home = () => {
     }
   };
 
-  const logoutUser = () => {
-    dispatch(logout());
-  };
-
   return (
-    <div className="bg-gray-700 flex h-screen overflow-hidden">
-      {toggleSlider && (
-        <Slider toggle={toggleSlider} rooms={rooms} joinRoom={joinRoom} />
-      )}
-      <div className="hidden md:flex md:flex-col lg:flex lg:flex-col text-center align-middle relative overflow-hidden  border-r-2 border-black">
-        <div className="h-full">
+    <div className="bg-gray flex flex-col md:flex-row lg:flex-row h-screen overflow-scroll">
+      {toggleSlider ? (
+        <Slider
+          toggle={toggle}
+          rooms={rooms}
+          joinRoom={joinRoom}
+          toggleSlider={toggleSlider}
+          setToggle={setToggle}
+        />
+      ) : null}
+      <div className="bg-gray-light w-1/6 hidden md:flex md:flex-col lg:flex lg:flex-col text-center align-middle relative overflow-hidden">
+        <div className="h-full flex flex-col items-center">
           {rooms && rooms.length
             ? rooms.map((room: any, i: any) => (
-                <Room key={room._id} room={room} join={joinRoom} />
+                <Room key={room._id} roomValue={room} join={joinRoom} />
               ))
             : null}
         </div>
 
-        <button
-          className="focus:outline-none bg-gray-600 w-32 self-center py-4 self-start text-xs rounded hover:bg-gray-800 mb-12 text-white font-bold"
-          onClick={() => setToggle(!toggle)}
-        >
-          Create Room
-        </button>
+        <RoomButton toggle={toggle} setToggle={setToggle} isDevice={false} />
       </div>
-      <button
-        className="hidden md:block lg:block focus:outline-none bg-gray-600 font-semibold w-20 py-2 absolute right-0 top-0 text-xs rounded hover:bg-gray-800 mb-4 m-4"
-        onClick={logoutUser}
-      >
-        Logout
-      </button>
-      <div className="bg-gray-700 h-screen text-white flex flex-col justify-center flex-1">
-        <div className="md:hidden lg:hidden h-auto absolute right-0 top-0 focus:outline-none p-2 focus:outline-none">
-          <Hamburger
-            duration={0.8}
+      <div className="min-h-screen bg-gray-700 text-white flex flex-col justify-center flex-1">
+        <div className="md:hidden lg:hidden w-full flex justify-end bg-indigo-700 focus:outline-none p-2 focus:outline-none">
+          {/* <Hamburger
+            duration={0.5}
             toggled={toggleSlider}
             size={24}
-            hideOutline={true}
-            onToggle={() => setToggleSlider(!toggleSlider)}
+            onToggle={(toggled) => {
+              if (toggled) {
+                setToggleSlider(!toggleSlider);
+              } else {
+                return;
+              }
+            }}
+          /> */}
+          <FontAwesomeIcon
+            size="1x"
+            style={{ margin: "10px" }}
+            icon={faBars}
+            onClick={() => setToggleSlider(!toggleSlider)}
           />
         </div>
         {toggle && (
@@ -120,10 +122,13 @@ export const Home = () => {
             create={create}
           />
         )}
-        <MessageBox room={room} />
-        {room && (
-          <Form sendMessage={sendMessage} setText={setText} text={text} />
-        )}
+        <MessageBox room={room} setToggleSlider={setToggleSlider} />
+        <Form
+          sendMessage={sendMessage}
+          setText={setText}
+          text={text}
+          room={room}
+        />
       </div>
     </div>
   );

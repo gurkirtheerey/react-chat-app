@@ -3,7 +3,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 export const Loader = ({ loading }) => {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-screen bg-gray">
       <ClipLoader color="red" loading={loading} size={150} />
     </div>
   );

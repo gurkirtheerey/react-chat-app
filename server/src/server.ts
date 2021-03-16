@@ -4,6 +4,7 @@ import connectToDB from "./db";
 import { addMessage, addUser } from "../helpers/roomHelpers";
 import RoomType from "../types/RoomType";
 import dotenv from "dotenv";
+dotenv.config();
 
 // port
 const PORT = process.env.PORT || 5000;
@@ -20,6 +21,7 @@ const express = require("express");
 const app = require("express")();
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
 // routes
 app.use("/api/room", roomRoutes);
