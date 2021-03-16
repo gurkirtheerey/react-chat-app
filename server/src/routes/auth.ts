@@ -43,13 +43,12 @@ router.post(
       // hash user password before saving in db
       try {
         const hashedPassword = await bcrypt.hash(password, 10); // REMEMBER TO CHANGE THIS HASH
-        const file = `${__dirname}../../public/images/po.png`;
         // save user to db
         const user = new User({
           email,
           username,
           password: hashedPassword,
-          avatar: "http://localhost:5000/images/po.png",
+          avatar: "https://react-chatter-api.herokuapp.com/images/po.png",
         });
         try {
           const saveUser: any = await user.save();
@@ -127,7 +126,7 @@ router.post(
               userId: userExists._id,
               username: userExists.username,
               token,
-              avatar: "http://localhost:5000/images/po.png",
+              avatar: "https://react-chatter-api.herokuapp.com/images/po.png",
             });
           } catch (err) {
             console.log(err);
