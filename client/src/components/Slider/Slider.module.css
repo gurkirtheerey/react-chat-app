@@ -2,10 +2,10 @@
   position: absolute;
   left: 2;
   top: 1;
-  height: 100vh;
+  height: 100%;
   width: 50%;
   z-index: 99;
-  background-color: rgba(0, 0, 0, 0.178);
+  background-color: rgba(0, 0, 0, 0.897);
 }
 
 .slideIn {

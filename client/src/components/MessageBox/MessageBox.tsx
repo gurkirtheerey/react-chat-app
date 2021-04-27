@@ -13,48 +13,40 @@ export const MessageBox: React.FC<MessageBoxProps> = ({
   room,
   setToggleSlider,
 }) => {
-  const [scroll, setScroll] = useState(0);
-  let messages: MessageType[] | undefined;
-  if (room !== undefined) {
-    messages = room.messages;
-  }
-  // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
-  let vh = window.innerHeight * 0.01;
-  // Then we set the value in the --vh custom property to the root of the document
-  document.documentElement.style.setProperty("--vh", `${vh}px`);
-
-  // console.log(vh);
+  const [msgs, setMsgs] = useState<MessageType[] | undefined>([]);
 
   useEffect(() => {
-    const messageBox = document.getElementById("message-box");
-    if (messageBox) {
-      setScroll(messageBox.scrollHeight);
-      messageBox.scrollTop = scroll;
+    if (room !== undefined) {
+      setMsgs(room.messages);
     }
-  }, [room, scroll]);
+    setTimeout(function () {
+      const messageBox = document.getElementById("message-box");
+      if (messageBox) {
+        messageBox.scrollTop = messageBox.scrollHeight;
+      }
+    }, 0);
+  }, [room]);
 
   return (
     <div
       onClick={() => setToggleSlider(false)}
       id="message-box"
-      className={`flex-grow bg-gray-800 md:bg-gray-700 lg:bg-gray-700 md:border-none lg:border-none overflow-scroll`}
+      className={`h-screen bg-background-light md:border-none lg:border-none overflow-scroll`}
     >
-      {messages && messages.length ? (
-        messages.map(({ _id, userId, message, username, date }) => (
-          <ul key={_id}>
-            <Message
-              message={message}
-              userId={userId}
-              user={username}
-              date={date}
-            />
-          </ul>
-        ))
-      ) : room ? (
-        <Skeleton header="This room seems to be empty... start a conversation!" />
-      ) : (
-        <Skeleton header="Please select a chat-room" />
-      )}
+      {msgs && msgs.length
+        ? msgs.map(({ _id, userId, message, username, date }) => (
+            <ul key={_id}>
+              <Message
+                message={message}
+                userId={userId}
+                user={username}
+                date={date}
+              />
+            </ul>
+          ))
+        : room && (
+            <Skeleton header="This room seems to be empty... start a conversation!" />
+          )}
     </div>
   );
 };

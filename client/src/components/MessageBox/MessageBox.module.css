@@ -1,9 +1,3 @@
-/* .main {
-  height: 100%;
-  /* height: 100vh; */
-  /* height: calc(var(--vh, 1vh) * 100); */
-}
-
 @media (max-width: 780px) and (min-) {
   .main {
     height: 83%;
@@ -38,4 +32,8 @@
   .main {
     height: 70%;
   }
-} */
+}
+
+.boxContainer {
+  height: 90%;
+}

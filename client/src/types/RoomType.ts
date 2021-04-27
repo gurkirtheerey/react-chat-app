@@ -3,6 +3,7 @@ import UserType from "./UserType";
 
 type RoomType = {
   _id: String | undefined;
+  userId: String | undefined;
   name: String | undefined;
   messages: MessageType[] | undefined;
   users: UserType[] | undefined;

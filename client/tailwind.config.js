@@ -5,47 +5,27 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-      blue: {
-        light: "#85d7ff",
-        DEFAULT: "#1fb6ff",
-        dark: "#009eeb",
-      },
-      pink: {
-        light: "#ff7ce5",
-        DEFAULT: "#F84AA7",
-        dark: "#ff16d1",
-      },
-      purple: {
-        dark: "480ca8",
-        DEFAULT: "#560bad",
-        light: "#7209b7",
-      },
-      gray: {
-        DEFAULT: "#14213d",
-        light: "#011627",
-        lightest: "#f9fafc",
-      },
-      input: {
-        DEFAULT: "#274156",
-      },
       text: {
-        DEFAULT: "#f1faee",
-        button: "#A53860",
-        hover: "#f72585",
+        light: "#627d98",
+        DEFAULT: "#243b53",
+        hover: "#f5f7fa",
       },
       white: {
-        DEFAULT: "#f1faee",
+        DEFAULT: "#d9e2ec",
       },
       error: {
         DEFAULT: "#e63946",
       },
       button: {
-        DEFAULT: "#A53860",
-        hover: "#f72585",
+        light: "#22303c",
+        DEFAULT: "#243b53",
+        hover: "#102a43",
       },
       background: {
-        DEFAULT: "#A53860",
-        hover: "#3a0ca3",
+        semilight: "102a43",
+        DEFAULT: "#121212",
+        light: "#181818",
+        hover: "#242526",
       },
       message: {
         DEFAULT: "#003049",

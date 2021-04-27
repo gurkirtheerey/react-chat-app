@@ -12,6 +12,9 @@ interface SliderProps {
   rooms: RoomType[];
   joinRoom: (room: RoomType) => void;
   setToggle: (toggle: boolean) => void;
+  modal: boolean;
+  setModal: (modal: boolean) => void;
+  setToggleSlider: (toggle: boolean) => void;
 }
 
 export const Slider: React.FC<SliderProps> = ({
@@ -20,6 +23,9 @@ export const Slider: React.FC<SliderProps> = ({
   joinRoom,
   setToggle,
   toggle,
+  modal,
+  setModal,
+  setToggleSlider,
 }) => {
   const dispatch = useDispatch();
   return (
@@ -36,9 +42,17 @@ export const Slider: React.FC<SliderProps> = ({
           : null}
       </div>
       <div className="flex flex-col w-full">
-        <RoomButton toggle={toggle} setToggle={setToggle} isDevice={true} />
+        <RoomButton
+          toggle={toggle}
+          setToggle={setToggle}
+          isDevice={true}
+          modal={modal}
+          setModal={setModal}
+          toggleSlider={toggleSlider}
+          setToggleSlider={setToggleSlider}
+        />
         <button
-          className="md:pt-6 lg:pt-6 md:hover:text-gray-300 lg:hover:text-gray-300 md:focus:outline-none lg:focus:outline-none bg-blue-800 p-4 font-semibold text-sm"
+          className="md:pt-6 lg:pt-6 md:focus:outline-none lg:focus:outline-none p-4 font-semibold text-sm"
           onClick={() => dispatch(logout())}
         >
           Logout

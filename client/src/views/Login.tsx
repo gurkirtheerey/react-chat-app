@@ -52,12 +52,9 @@ export const Login = () => {
   return (
     <form
       onSubmit={formik.handleSubmit}
-      className="h-screen bg-gray flex flex-col justify-center items-center text-gray-500"
+      className="h-screen bg-background flex flex-col justify-center items-center"
     >
-      <h1 className="w-1/3 text-white lg:text-4xl font-mono font-bold text-white mb-12">
-        Login
-      </h1>
-      <div className="w-full shadow-md rounded md:px-8 lg:px-8 md:pt-6 lg:pt-6 pb-8 mb-4 flex flex-col lg:w-1/3 md:w-1/2 shadow-2xl">
+      <div className="w-full rounded md:px-8 lg:px-8 md:pt-6 lg:pt-6 pb-8 mb-4 flex flex-col lg:w-1/3 md:w-1/2 shadow">
         <div className="mb-4">
           {formik.touched.username && formik.errors.username ? (
             <span className="text-error font-bold">
@@ -72,7 +69,7 @@ export const Login = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.username}
-            className="shadow bg-input appearance-none rounded w-full py-2 px-3 font-serif text-text focus:outline-none"
+            className="bg-background-light rounded w-full py-2 px-3 font-serif text-white font-semibold focus:outline-none"
             id="username"
             type="text"
             placeholder="Username"
@@ -91,7 +88,7 @@ export const Login = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.password}
-            className="shadow bg-input appearance-none rounded w-full py-2 px-3 text-text focus:outline-none"
+            className="bg-background-light rounded w-full py-2 px-3 text-white font-semibold focus:outline-none"
             id="password"
             type="password"
             placeholder="**********"
@@ -99,7 +96,7 @@ export const Login = () => {
         </div>
         <div className="flex flex-col h-24 items-center justify-between md:flex-row lg:flex-row">
           <button
-            className="w-1/2 md:w-1/3 lg:w-1/3 bg-button text-text font-semibold py-2 px-4 rounded"
+            className="w-1/2 md:w-1/3 lg:w-1/3 bg-button hover:bg-button-hover text-white font-semibold py-2 px-4 rounded focus:outline-none"
             type="submit"
           >
             Sign in
@@ -107,7 +104,7 @@ export const Login = () => {
 
           <span
             onClick={() => history.push("/register")}
-            className="font-bold text-sm cursor-pointer text-text-button"
+            className="font-bold text-sm cursor-pointer text-text p-4"
           >
             Don't have an account?
           </span>

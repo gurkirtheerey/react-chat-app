@@ -65,7 +65,7 @@ export const authSlice = createSlice({
       state.userId = undefined;
       state.username = undefined;
       localStorage.removeItem("token");
-      toast.success("Successfully logged out!");
+      toast.dark("Successfully logged out!");
     },
 
     resetUser: (state) => {
@@ -133,7 +133,12 @@ export const verifyUser = (token: string): AppThunk => async (dispatch) => {
       dispatch(verify(data));
     }
   } catch (err) {
-    toast.warn(err.response.data + ". Please login again.");
+    if (err.response && err.response.data) {
+      toast.dark(err.response.data + ". Please login again.");
+    } else {
+      toast.dark("Welcome! Please login :) ");
+    }
+    localStorage.removeItem("token");
     console.log(err);
   }
 };

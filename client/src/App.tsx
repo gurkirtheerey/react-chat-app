@@ -7,6 +7,7 @@ import { Login } from "./views/Login";
 import { Register } from "./views/Register";
 import ProtectedRoute from "./ProtectedRoute";
 import { ToastNotification } from "./components/ToastNotification";
+import { Profile } from "./views/Profile";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const App = () => {
       <ToastNotification />
       <Route exact path="/login" component={Login} />
       <Route exact path="/register" component={Register} />
+      <Route exact path="/profile" component={Profile} />
       <ProtectedRoute exact path="/" component={Home} />
     </BrowserRouter>
   );

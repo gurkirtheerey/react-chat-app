@@ -57,12 +57,9 @@ export const Register = () => {
   return (
     <form
       onSubmit={formik.handleSubmit}
-      className="bg-gray h-screen flex flex-col justify-center items-center text-sm md:text-md lg:text-lg"
+      className="bg-background h-screen flex flex-col justify-center items-center text-sm"
     >
-      <h1 className="w-1/3 text-white lg:text-4xl font-mono font-bold text-white mb-12">
-        Create an accoount
-      </h1>
-      <div className="shadow-md rounded w-full md:px-8 lg:px-8 md:pt-6 lg:pt-6 pb-8 mb-4 flex flex-col md:w-1/2 lg:w-1/3 shadow-xl">
+      <div className="rounded w-full md:px-8 lg:px-8 md:pt-6 lg:pt-6 pb-8 mb-4 flex flex-col md:w-1/2 lg:w-1/3 shadow">
         <div className="mb-4">
           {formik.touched.email && formik.errors.email ? (
             <span className="text-error font-bold">{formik.errors.email}!</span>
@@ -75,7 +72,7 @@ export const Register = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.email}
-            className="shadow bg-input appearance-none rounded w-full py-2 px-3 font-serif text-text focus:outline-none"
+            className="bg-background-light rounded w-full py-2 px-3 font-serif text-white font-semibold focus:outline-none"
             id="email"
             type="text"
             placeholder="Email"
@@ -92,7 +89,7 @@ export const Register = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.username}
-            className="shadow bg-input appearance-none rounded w-full py-2 px-3 font-serif text-text focus:outline-none"
+            className="bg-background-light rounded w-full py-2 px-3 font-serif text-white font-semibold focus:outline-none"
             id="username"
             type="text"
             placeholder="Username"
@@ -111,7 +108,7 @@ export const Register = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.password}
-            className="shadow bg-input appearance-none rounded w-full py-2 px-3 font-serif text-text focus:outline-none"
+            className="bg-background-light rounded w-full py-2 px-3 font-serif text-white font-semibold focus:outline-none"
             id="password"
             type="password"
             placeholder="**********"
@@ -119,7 +116,7 @@ export const Register = () => {
         </div>
         <div className="flex flex-col h-24 items-center justify-between md:flex-row lg:flex-row">
           <button
-            className="w-1/2 md:w-1/3 lg:w-1/3 bg-button text-text font-semibold py-2 px-4 rounded"
+            className="w-1/2 md:w-1/3 lg:w-1/3 bg-button text-white font-semibold py-2 px-4 rounded focus:outline-none"
             type="submit"
           >
             Sign up
@@ -127,7 +124,7 @@ export const Register = () => {
 
           <span
             onClick={() => history.push("/login")}
-            className="font-bold text-sm cursor-pointer text-text-button"
+            className="font-bold text-sm cursor-pointer text-text p-4"
           >
             Have an account?
           </span>
